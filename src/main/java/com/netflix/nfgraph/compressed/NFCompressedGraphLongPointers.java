@@ -35,22 +35,24 @@ public class NFCompressedGraphLongPointers implements NFCompressedGraphPointers 
     private final Map<String, long[]>pointersByOrdinal;
 
     public NFCompressedGraphLongPointers() {
-        this.pointersByOrdinal = new HashMap<String, long[]>();
+        this.pointersByOrdinal = new HashMap<>();
     }
 
     /**
      * @return the offset into the {@link NFCompressedGraph}'s byte array for the node identified by the given type and ordinal.
      */
     public long getPointer(String nodeType, int ordinal) {
-        long pointers[] = pointersByOrdinal.get(nodeType);
-        if(pointers == null)
+        long[] pointers = pointersByOrdinal.get(nodeType);
+        if(pointers == null) {
             throw new NFGraphException("Undefined node type: " + nodeType);
-        if(ordinal < pointers.length)
+        }
+        if(ordinal < pointers.length) {
             return pointers[ordinal];
+        }
         return -1;
     }
 
-    public void addPointers(String nodeType, long pointers[]) {
+    public void addPointers(String nodeType, long[] pointers) {
         pointersByOrdinal.put(nodeType, pointers);
     }
 
